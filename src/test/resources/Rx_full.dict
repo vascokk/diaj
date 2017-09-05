@@ -1,0 +1,130 @@
+            Session-Id                      263     UTF8String
+            Auth-Application-Id             258     Unsigned32
+            Origin-Host                     264     DiameterIdentity
+            Origin-Realm                    296     DiameterIdentity
+            Destination-Realm               283     DiameterIdentity
+            Destination-Host                296     DiameterIdentity
+            AF-Application-Identifier       504     OctetString
+            Media-Component-Description     517     Grouped
+            Service-Info-Status             527     Enumerated
+            AF-Charging-Identifier          505     OctetString
+            SIP-Forking-Indication          523     Enumerated
+            Specific-Action                 513     Enumerated
+            Subscription-ID                 443     Grouped
+            Reservation-Priority            458     Enumerated
+            Framed-IP-Address               8       OctetString
+            Framed-IPv6-Prefix              97      OctetString
+            Service-URN                     525     OctetString
+            Origin-State-Id                 278     Unsigned32
+            Proxy-Info                      284     Grouped
+            Route-Record                    282     DiameterIdentity
+            Proxy-Host                      280     DiameterIdentity
+            Proxy-State                     33      OctetString
+            Subscription-Id-Type            450     Enumerated
+            Subscription-Id-Data            444     UTF8String
+            Abort-Cause-AVP                 500     Enumerated
+            Media-Component-Number          518     Unsigned32
+            Media-Sub-Component             519     Grouped
+            Media-Type                      520     Enumerated
+            Max-Requested-Bandwidth-UL      516     Unsigned32
+            Max-Requested-Bandwidth-DL      515     Unsigned32
+            Min-Requested-Bandwidth-DL      535     Unsigned32
+            Min-Requested-Bandwidth-DL      534     Unsigned32
+            Flow-Status                     511     Enumerated
+            RS-Bandwidth                    522     Unsigned32
+            RR-Bandwidth                    521     Unsigned32
+            Flow-Number                     509     Unsigned32
+            Flow-Description                507     IPFilterRule
+            Flow-Usage                      512     Enumerated
+            Codec-Data                      524     OctetString
+
+            Subscription-Id-Type ::= <AVP Header: 443>
+                END_USER_E164(0)
+                END_USER_IMSI(1)
+                END_USER_SIP_URI(2)
+                END_USER_NAI(3)
+                END_USER_PRIVATE(4)
+
+
+            Abort-Cause ::= <AVP Header: 500 10415>
+                BEARER_RELEASED (0)
+                INSUFFICIENT_SERVER_RESOURCES (1)
+                INSUFFICIENT_BEARER_RESOURCES (2)
+
+
+            <Media-Sub-Component> ::= <AVP Header: 519>
+                         { Flow-Number }
+                         0*2[ Flow-Description ]
+                         [ Flow-Status ]
+                         [ Flow-Usage ]
+                         [ Max-Requested-Bandwidth-UL ]
+                         [ Max-Requested-Bandwidth-DL ]
+                         *[ AVP ]
+
+            <Media-Component-Description> ::= <AVP Header: 517>
+                         { Media-Component-Number } ; Ordinal number of the media comp.
+                         *[ Media-Sub-Component ] ; Set of flows for one flow identifier
+                         [ AF-Application-Identifier ]
+                         [ Media-Type ]
+                         [ Max-Requested-Bandwidth-UL ]
+                         [ Max-Requested-Bandwidth-DL ]
+                         [ Flow-Status ]
+                         [ Reservation-Priority ]
+                         [ RS-Bandwidth ]
+                         [ RR-Bandwidth ]
+                         *[ Codec-Data ]
+
+            <Proxy-Info> ::= <AVP Header: 284>
+                     { Proxy-Host }
+                     { Proxy-State }
+                   * [ AVP ]
+
+
+            <Subscription-ID> ::= <AVP Header: 443>
+                                      { Subscription-Id-Type }
+                                      { Subscription-Id-Data }
+
+            <AA-Request> ::= < Diameter Header: 265, REQ, PXY >
+             < Session-Id >
+             { Auth-Application-Id }
+             { Origin-Host }
+             { Origin-Realm }
+             { Destination-Realm }
+             [ Destination-Host ]
+             [ AF-Application-Identifier ]
+             *[ Media-Component-Description ]
+             [Service-Info-Status ]
+              [ AF-Charging-Identifier ]
+              [ SIP-Forking-Indication ]
+              *[ Specific-Action ]
+              *[ Subscription-ID ]
+              [ Reservation-Priority ]
+              [ Framed-IP-Address ]
+              [ Framed-IPv6-Prefix ]
+              [ Service-URN ]
+              [ Origin-State-Id ]
+              *[ Proxy-Info ]
+              *[ Route-Record ]
+              *[ AVP ]
+
+            <AA-Answer> ::= < Diameter Header: 265, PXY >
+             < Session-Id >
+             { Auth-Application-Id }
+             { Origin-Host }
+             { Origin-Realm }
+             [ Result-Code ]
+             [ Experimental-Result ]
+             *[ Access-Network-Charging-Identifier ]
+             [ Access-Network-Charging-Address ]
+             [Acceptable-Service-Info ]
+             [ IP-CAN-Type ]
+             [ 3GPP-RAT-Type ]
+             [ Error-Message ]
+             [ Error-Reporting-Host ]
+             *[ Failed-AVP ]
+             [ Origin-State-Id ]
+             *[ Redirect-Host ]
+             [ Redirect-Host-Usage ]
+             [ Redirect-Max-Cache-Time ]
+             *[ Proxy-Info ]
+             *[ AVP ]

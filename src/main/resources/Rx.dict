@@ -1,0 +1,11 @@
+Session-Id                  263     UTF8String
+
+<AA-Request> ::= < Diameter Header: 265, REQ, PXY >
+ < Session-Id >
+ { Auth-Application-Id }
+ { Origin-Host }
+ { Origin-Realm }
+ { Destination-Realm }
+ [ Destination-Host ]
+ [ AF-Application-Identifier ]
+ *[ Media-Component-Description ]
